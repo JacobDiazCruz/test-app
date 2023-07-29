@@ -3,22 +3,22 @@
 Extras
 
 1. Quality and best practices
-   When it comes to applying the best practices in this exam, I've come up with some approaches and patterns that are reasonable to use:
+   When it comes to applying the best practices in this exam, I have come up with some approaches and patterns that are reasonable to use:
 
-   - Compound Components pattern: I've applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component isn't really large and complex, I didn't abstract everything too much because I dont want to end up over-engineering the feature.
+   - Compound Components pattern: I have applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component isn't really large and complex, I didn't abstract everything too much because I don't want to end up over-engineering the feature.
 
-   - Comments: I've written down comments on functions and components to help explain their purpose and behavior, which can be helpful for other developers or for future reference. This is a good practice, especially in larger codebases or when the logic is more complex.
+   - Comments: I have written down comments on functions and components to help explain their purpose and behavior, which can be helpful for other developers or for future reference. This is a good practice, especially in larger codebases or when the logic is more complex.
 
-   - Reusability: In some cases, I've abstracted layers of configurations like overriding MUI theme components and palettes to separate their concerns into different files. Making them reusable and easily configured when the app scales.
+   - Reusability: In some cases, I have abstracted layers of configurations like overriding MUI theme components and palettes to separate their concerns into different files. Making them reusable and easily configured when the app scales.
 
 2. How close to the designs is your submission?
    - If you needed to change something in the future (size/color of buttons), how easy would it be?
-     - Since I've already abstracted the configuration of the mui theme, it would now
+     - Since I have already abstracted the configuration of the mui theme, it would now
      be easier for devs to navigate the file and change some styles. They won't need to
      go to different components just to update a color of a button.
     
     - How does this look on different devices?
-     - On mobile and tablet devices, it looks responsive and easier to navigate since I've made some grids and components flexible using mui breakpoints. As for the different desktop views, there's not much change since the default style is already applied.
+     - On mobile and tablet devices, it looks responsive and easier to navigate since I have made some grids and components flexible using mui breakpoints. As for the different desktop views, there's not much change since the default style is already applied.
 
 3. How can your submission allow for scalability?
 

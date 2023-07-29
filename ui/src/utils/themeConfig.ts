@@ -75,16 +75,29 @@ export const theme: Theme = createTheme({
         }
       }
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            borderColor: 'none'
+          }
+        }
+      }
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
           height: '45px',
           backgroundColor: 'white',
+          borderRadius: '8px',
           '& fieldset': {
             borderColor: '#e0e0e0',
+            borderRadius: '8px',
             borderWidth: '1px',
-            borderRadius: '4px'
           },
+          '&:hover': {
+            borderColor: 'none'
+          }
         }
       }
     }
