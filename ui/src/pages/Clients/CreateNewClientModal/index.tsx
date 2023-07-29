@@ -10,12 +10,12 @@ interface CreateNewClientModalProps {
   handleClose: () => void;
 }
 
-export const steps: Array<'Personal details' | 'Contact details'> = ['Personal details', 'Contact details'];
+export const steps = ['Personal details', 'Contact details'];
 export interface ClientForm {
   label: string;
   field: string;
   type: "text" | "email";
-  step: 'Personal details' | 'Contact details';
+  step: "Personal details" | "Contact details";
   value: string;
 }
 
@@ -92,14 +92,19 @@ export default function CreateNewClientModal({
 
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ? steps.findIndex((step, i) => !(i in newCompleted))
+        ? steps.findIndex((_, i) => !(i in newCompleted))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
 
   // Handler for creating a new client and closing the modal
   const handleCreateClient = (): void => {
-    // dispatch({ type: "ADD_CLIENT", data: clientForm });
+    const clientPayload: any = {};
+    clientForm.forEach((client: ClientForm) => {
+      clientPayload[client.field] = client.value;
+    });
+    
+    dispatch({ type: "ADD_CLIENT", data: clientPayload });
     handleClose();
   };
 
