@@ -38,7 +38,7 @@ export default function FooterActions({
 
   return (
     <Box sx={{ display: 'flex', mt: 5 }}>
-      {activeStep === 1 && (
+      {activeStep > 0 && (
         <Button
           onClick={handleBack}
           startIcon={<ArrowBackIcon />}
@@ -47,7 +47,7 @@ export default function FooterActions({
         </Button>
       )}
 
-      {activeStep === 0 ? (
+      {activeStep < steps.length - 1 ? (
         <Button
           sx={{ ml: 'auto' }}
           variant="contained"
