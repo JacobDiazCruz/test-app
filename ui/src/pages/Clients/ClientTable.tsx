@@ -14,7 +14,7 @@ export default function BasicTable({ clients }: { clients: IClient[] }) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell>Phone number</TableCell>
+            <TableCell>Phone</TableCell>
             <TableCell>Email</TableCell>
           </TableRow>
         </TableHead>

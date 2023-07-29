@@ -6,21 +6,9 @@ import { Client, StateContext } from "../../../store/DataProvider";
 import PersonalDetails from "./PersonalDetails";
 import ContactDetails from "./ContactDetails";
 import FooterActions from "./FooterActions";
+import { modalBoxStyle } from "../../../utils/styles";
 interface CreateNewClientModalProps {
   handleClose: () => void;
-};
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  width: 400,
-  bgcolor: 'white',
-  borderRadius: '8px',
-  boxShadow: 24,
-  p: 4,
 };
 
 const steps = ['Personal details', 'Contact details'];
@@ -67,11 +55,13 @@ export default function CreateNewClientModal({
   };
 
   const handleNext = () => {
+    const newCompleted = { ...completed };
+    newCompleted[activeStep] = true;
+    setCompleted(newCompleted);
+  
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
+        ? steps.findIndex((step, i) => !(i in newCompleted))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
@@ -86,7 +76,7 @@ export default function CreateNewClientModal({
       open={true}
       onClose={handleClose}
     >
-      <Box sx={style}>
+      <Box sx={modalBoxStyle}>
         <Box 
           className="header"
           style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
@@ -102,7 +92,7 @@ export default function CreateNewClientModal({
         <Stepper nonLinear activeStep={activeStep} sx={{ mt: 2 }}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]} sx={{ pl: 0 }}>
-              <StepButton color="inherit" onClick={handleStep(index)}>
+              <StepButton onClick={handleStep(index)}>
                 {label}
               </StepButton>
             </Step>

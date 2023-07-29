@@ -23,10 +23,20 @@ export default function ClientListItem({ client }: IProps) {
         scope="row"
         sx={{ color: 'primary.main' }}
       >
-        {firstName} {lastName}
+        <Typography>
+          {firstName} {lastName}
+        </Typography>
       </TableCell>
-      <TableCell>{phoneNumber}</TableCell>
-      <TableCell>{email}</TableCell>
+      <TableCell>
+        <Typography>
+          {phoneNumber}
+        </Typography>
+      </TableCell>
+      <TableCell>
+        <Typography>
+          {email}
+        </Typography>
+      </TableCell>
     </TableRow>
   );
 }
