@@ -1,11 +1,11 @@
 import { Close } from "@mui/icons-material";
-import { Button, IconButton, Modal, Step, StepButton, Stepper, Typography } from "@mui/material";
+import { IconButton, Modal, Step, StepButton, Stepper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useState } from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Client, StateContext } from "../../../store/DataProvider";
 import PersonalDetails from "./PersonalDetails";
 import ContactDetails from "./ContactDetails";
+import FooterActions from "./FooterActions";
 interface CreateNewClientModalProps {
   open: boolean;
   handleClose: () => void;
@@ -77,7 +77,7 @@ export default function CreateNewClientModal({
     setActiveStep(newActiveStep);
   };
 
-  const createClient = () => {
+  const handleCreateClient = () => {
     dispatch({ type: "ADD_CLIENT", data: client });
     handleClose();
   };
@@ -99,6 +99,7 @@ export default function CreateNewClientModal({
             <Close />
           </IconButton>
         </Box>
+        
         <Stepper nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]}>
@@ -108,6 +109,7 @@ export default function CreateNewClientModal({
             </Step>
           ))}
         </Stepper>
+
         {activeStep === 0 ? (
           <PersonalDetails
             firstName={client.firstName}
@@ -121,34 +123,13 @@ export default function CreateNewClientModal({
             handleSetClient={setClient}
           />
         )}
-        <Box sx={{ display: 'flex' }}>
-          {activeStep === 1 && (
-            <Button
-              onClick={handleBack}
-              startIcon={<ArrowBackIcon />}
-            >
-              Back
-            </Button>
-          )}
 
-          {activeStep === 0 ? (
-            <Button
-              sx={{ ml: 'auto' }}
-              variant="contained"
-              onClick={handleNext}
-            >
-              Continue
-            </Button>
-          ) : (
-            <Button
-              sx={{ ml: 'auto' }}
-              variant="contained"
-              onClick={createClient}
-            >
-              Create client
-            </Button>
-          )}
-        </Box>
+        <FooterActions
+          activeStep={activeStep}
+          handleBack={handleBack}
+          handleNext={handleNext}
+          handleCreateClient={handleCreateClient}
+        />
       </Box>
     </Modal>
   );
