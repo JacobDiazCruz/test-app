@@ -1,18 +1,23 @@
 import { Close } from "@mui/icons-material";
-import { IconButton, Modal, Step, StepButton, Stepper, Typography } from "@mui/material";
+import { IconButton, Modal, Step, StepButton, Stepper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useState } from "react";
-import { Client, StateContext } from "../../../store/DataProvider";
-import PersonalDetails from "./PersonalDetails";
-import ContactDetails from "./ContactDetails";
+import { StateContext } from "../../../store/DataProvider";
 import FooterActions from "./FooterActions";
 import { modalBoxStyle } from "../../../utils/styles";
 
 interface CreateNewClientModalProps {
   handleClose: () => void;
-};
+}
 
-const steps = ['Personal details', 'Contact details'];
+export const steps: Array<'Personal details' | 'Contact details'> = ['Personal details', 'Contact details'];
+export interface ClientForm {
+  label: string;
+  field: string;
+  type: "text" | "email";
+  step: 'Personal details' | 'Contact details';
+  value: string;
+}
 
 export default function CreateNewClientModal({
   handleClose
@@ -20,44 +25,67 @@ export default function CreateNewClientModal({
   const { dispatch } = useContext(StateContext);
   
   // State to hold client information
-  const [activeStep, setActiveStep] = useState(0);
-  const [client, setClient] = useState<Client>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: ''
-  });
+  const [clientForm, setClientForm] = useState<ClientForm[]>([
+    {
+      label: "First name",
+      field: "firstName",
+      type: "text",
+      step: "Personal details",
+      value: ""
+    },
+    {
+      label: "Last name",
+      field: "lastName",
+      type: "text",
+      step: "Personal details",
+      value: ""
+    },
+    {
+      label: "Email",
+      field: "email",
+      type: "email",
+      step: "Contact details",
+      value: ""
+    },
+    {
+      label: "Contact",
+      field: "phoneNumber",
+      type: "text",
+      step: "Contact details",
+      value: ""
+    }
+  ]);
+
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   // State to track completed steps in the form
-  const [completed, setCompleted] = useState<{
-    [k: number]: boolean;
-  }>({});
+  const [completed, setCompleted] = useState<Record<number, boolean>>({});
 
-  const totalSteps = () => {
+  const totalSteps = (): number => {
     return steps.length;
   };
 
-  const completedSteps = () => {
+  const completedSteps = (): number => {
     return Object.keys(completed).length;
   };
 
   // Helper function to check if the current step is the last step in the form
-  const isLastStep = () => {
+  const isLastStep = (): boolean => {
     return activeStep === totalSteps() - 1;
   };
 
   // Helper function to check if all steps in the form are completed
-  const allStepsCompleted = () => {
+  const allStepsCompleted = (): boolean => {
     return completedSteps() === totalSteps();
   };
 
   // Handler for navigating back to the previous step in the form
-  const handleBack = () => {
+  const handleBack = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   // Handler for navigating to the next step in the form
-  const handleContinue = () => {
+  const handleContinue = (): void => {
     const newCompleted = { ...completed };
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -70,9 +98,24 @@ export default function CreateNewClientModal({
   };
 
   // Handler for creating a new client and closing the modal
-  const handleCreateClient = () => {
-    dispatch({ type: "ADD_CLIENT", data: client });
+  const handleCreateClient = (): void => {
+    // dispatch({ type: "ADD_CLIENT", data: clientForm });
     handleClose();
+  };
+
+  // Handler to update the clientForm state when the text fields change
+  const handleChange = (index: number, value: string): void => {
+    setClientForm((prevClientForm) => {
+      const newClientForm = [...prevClientForm];
+      const currentStepFields = newClientForm.filter((client) => client.step === steps[activeStep]);
+      currentStepFields[index] = {
+        ...currentStepFields[index],
+        value: value
+      };
+      return newClientForm.map((client) =>
+        client.step === steps[activeStep] ? currentStepFields.shift()! : client
+      );
+    });
   };
 
   return (
@@ -96,7 +139,7 @@ export default function CreateNewClientModal({
         
         <Stepper nonLinear activeStep={activeStep} sx={{ mt: 2 }}>
           {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]}>
+            <Step disabled key={label} completed={completed[index]}>
               <StepButton onClick={() => setActiveStep(index)}>
                 {label}
               </StepButton>
@@ -104,23 +147,24 @@ export default function CreateNewClientModal({
           ))}
         </Stepper>
 
-        {/* Render either PersonalDetails or ContactDetails based on the active step */}
-        {!!activeStep ? (
-          <ContactDetails
-            email={client.email}
-            phoneNumber={client.phoneNumber}
-            handleSetClient={setClient}
-          />
-        ) : (
-          <PersonalDetails
-            firstName={client.firstName}
-            lastName={client.lastName}
-            handleSetClient={setClient}
-          />
-        )}
+        {/* Render the text fields based on the active step */}
+        {clientForm
+          .filter((client) => client.step === steps[activeStep])
+          .map((client: ClientForm, index: number) => (
+            <Box key={index} py={3}>
+              <Typography sx={{ color: "text.secondary" }}>
+                {client.label}
+              </Typography>
+              <TextField
+                sx={{ width: "100%" }}
+                value={client.value}
+                onChange={(e) => handleChange(index, e.target.value)}
+              />
+            </Box>
+        ))}
 
         <FooterActions
-          client={client}
+          clientForm={clientForm}
           activeStep={activeStep}
           handleBack={handleBack}
           handleContinue={handleContinue}

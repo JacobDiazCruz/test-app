@@ -15,7 +15,7 @@ function Clients() {
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
 
   /**
-   * @purpose To fetch all clients data from the api and store it to
+   * To fetch all clients data from the api and store it to
    * the clients state.
    */
   useEffect(() => {

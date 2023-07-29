@@ -1,7 +1,7 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Client } from "../../store/DataProvider";
 
 interface Props {
@@ -15,7 +15,7 @@ export default function ClientActions({
   handleShowCreateClientModal,
   setFilteredClients
 }: Props) {
-  const [searchClient, setSearchClient] = useState<string>("");
+  const [searchClient, setSearchClient]: [string, Dispatch<SetStateAction<string>>] = useState<string>("");
 
   /**
    * @purpose to handle search filter logic
