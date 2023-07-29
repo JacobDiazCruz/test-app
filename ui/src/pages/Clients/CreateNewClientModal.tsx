@@ -1,6 +1,7 @@
 import { Close } from "@mui/icons-material";
-import { IconButton, Modal, Typography } from "@mui/material";
+import { IconButton, Modal, Step, StepButton, Stepper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useState } from "react";
 
 interface Props {
   open: boolean;
@@ -19,10 +20,21 @@ const style = {
   p: 4,
 };
 
+const steps = ['Personal details', 'Contact details'];
+
 export default function CreateNewClientModal({
   open,
   handleClose
 }: Props) {
+  const [activeStep, setActiveStep] = useState(0);
+  const [completed, setCompleted] = useState<{
+    [k: number]: boolean;
+  }>({});
+
+  const handleStep = (step: number) => () => {
+    setActiveStep(step);
+  };
+
   return (
     <Modal
       open={open}
@@ -40,6 +52,15 @@ export default function CreateNewClientModal({
             <Close />
           </IconButton>
         </Box>
+        <Stepper nonLinear activeStep={activeStep}>
+          {steps.map((label, index) => (
+            <Step key={label} completed={completed[index]}>
+              <StepButton color="inherit" onClick={handleStep(index)}>
+                {label}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
       </Box>
     </Modal>
   );
