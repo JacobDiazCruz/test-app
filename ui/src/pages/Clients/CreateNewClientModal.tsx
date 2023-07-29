@@ -1,8 +1,9 @@
 import { Close } from "@mui/icons-material";
 import { Button, IconButton, Modal, Step, StepButton, Stepper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { StateContext } from "../../store/DataProvider";
 interface Props {
   open: boolean;
   handleClose: () => void;
@@ -26,16 +27,18 @@ export default function CreateNewClientModal({
   open,
   handleClose
 }: Props) {
+  const { state, dispatch } = useContext(StateContext);
+
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{
     [k: number]: boolean;
   }>({});
 
-  const [form, setForm] = useState({
+  const [client, setClient] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    contact: ''
+    phoneNumber: ''
   });
 
   const handleStep = (step: number) => () => {
@@ -72,6 +75,11 @@ export default function CreateNewClientModal({
     setActiveStep(newActiveStep);
   };
 
+  const createClient = () => {
+    dispatch({ type: "ADD_CLIENT", data: client });
+    handleClose();
+  };
+
   return (
     <Modal
       open={open}
@@ -106,9 +114,9 @@ export default function CreateNewClientModal({
               </Typography>
               <TextField 
                 sx={{ width: '100%' }}
-                value={form.firstName}
+                value={client.firstName}
                 onChange={(e) => {
-                  setForm((prev) => ({
+                  setClient((prev) => ({
                     ...prev,
                     firstName: e.target.value
                   }))
@@ -121,9 +129,9 @@ export default function CreateNewClientModal({
               </Typography>
               <TextField 
                 sx={{ width: '100%' }}
-                value={form.lastName}
+                value={client.lastName}
                 onChange={(e) => {
-                  setForm((prev) => ({
+                  setClient((prev) => ({
                     ...prev,
                     lastName: e.target.value
                   }))
@@ -139,9 +147,9 @@ export default function CreateNewClientModal({
               </Typography>
               <TextField 
                 sx={{ width: '100%' }}
-                value={form.email}
+                value={client.email}
                 onChange={(e) => {
-                  setForm((prev) => ({
+                  setClient((prev) => ({
                     ...prev,
                     email: e.target.value
                   }))
@@ -154,11 +162,11 @@ export default function CreateNewClientModal({
               </Typography>
               <TextField 
                 sx={{ width: '100%' }}
-                value={form.contact}
+                value={client.phoneNumber}
                 onChange={(e) => {
-                  setForm((prev) => ({
+                  setClient((prev) => ({
                     ...prev,
-                    contact: e.target.value
+                    phoneNumber: e.target.value
                   }))
                 }}
               />
@@ -187,6 +195,7 @@ export default function CreateNewClientModal({
             <Button
               sx={{ ml: 'auto' }}
               variant="contained"
+              onClick={createClient}
             >
               Create client
             </Button>
