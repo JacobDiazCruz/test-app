@@ -17,7 +17,7 @@ export default function PersonalDetails({
   return (
     <Box py={3}>
       <Box>
-        <Typography>
+        <Typography sx={{ color: 'text.secondary' }}>
           First name
         </Typography>
         <TextField 
@@ -31,8 +31,8 @@ export default function PersonalDetails({
           }}
         />
       </Box>
-      <Box mt={2}>
-        <Typography>
+      <Box mt={1}>
+        <Typography sx={{ color: 'text.secondary' }}>
           Last name
         </Typography>
         <TextField 

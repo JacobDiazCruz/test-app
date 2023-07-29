@@ -22,7 +22,7 @@ function Clients() {
 
   return (
     <Page>
-      <Typography variant="h4" sx={{ textAlign: "start" }}>
+      <Typography variant="h5" sx={{ textAlign: "start" }}>
         Clients
       </Typography>
 

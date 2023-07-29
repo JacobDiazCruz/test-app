@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow, Typography } from "@mui/material";
 
 export interface IProps {
   client: IClient;
@@ -18,7 +18,11 @@ export default function ClientListItem({ client }: IProps) {
         },
       }}
     >
-      <TableCell component="th" scope="row">
+      <TableCell 
+        component="th" 
+        scope="row"
+        sx={{ color: 'primary.main' }}
+      >
         {firstName} {lastName}
       </TableCell>
       <TableCell>{phoneNumber}</TableCell>

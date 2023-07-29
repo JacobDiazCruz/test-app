@@ -17,7 +17,7 @@ export default function ContactDetails({
   return (
     <Box py={3}>
       <Box>
-        <Typography>
+        <Typography sx={{ color: 'text.secondary' }}>
           Email
         </Typography>
         <TextField 
@@ -31,8 +31,8 @@ export default function ContactDetails({
           }}
         />
       </Box>
-      <Box mt={2}>
-        <Typography>
+      <Box mt={1}>
+        <Typography sx={{ color: 'text.secondary' }}>
           Contact
         </Typography>
         <TextField 

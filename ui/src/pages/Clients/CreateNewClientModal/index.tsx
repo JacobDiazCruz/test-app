@@ -15,6 +15,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
   width: 400,
   bgcolor: 'white',
   borderRadius: '8px',
@@ -93,14 +94,14 @@ export default function CreateNewClientModal({
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Create new client
           </Typography>
-          <IconButton>
+          <IconButton sx={{ p: 0 }}>
             <Close />
           </IconButton>
         </Box>
         
-        <Stepper nonLinear activeStep={activeStep}>
+        <Stepper nonLinear activeStep={activeStep} sx={{ mt: 2 }}>
           {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]}>
+            <Step key={label} completed={completed[index]} sx={{ pl: 0 }}>
               <StepButton color="inherit" onClick={handleStep(index)}>
                 {label}
               </StepButton>

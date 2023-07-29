@@ -16,7 +16,7 @@ export default function FooterActions({
   handleCreateClient
 }: Props) {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', mt: 5 }}>
       {activeStep === 1 && (
         <Button
           onClick={handleBack}

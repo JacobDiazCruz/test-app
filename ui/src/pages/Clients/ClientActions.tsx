@@ -58,8 +58,8 @@ export default function ClientActions({
         variant="contained"
         onClick={handleShowCreateClientModal}
       >
-        Create a new client
+        Create new client
       </Button>
     </Box>
   );
-}
+};
