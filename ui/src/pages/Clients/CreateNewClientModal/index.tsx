@@ -7,7 +7,6 @@ import PersonalDetails from "./PersonalDetails";
 import ContactDetails from "./ContactDetails";
 import FooterActions from "./FooterActions";
 interface CreateNewClientModalProps {
-  open: boolean;
   handleClose: () => void;
 };
 
@@ -26,7 +25,6 @@ const style = {
 const steps = ['Personal details', 'Contact details'];
 
 export default function CreateNewClientModal({
-  open,
   handleClose
 }: CreateNewClientModalProps) {
   const { dispatch } = useContext(StateContext);
@@ -84,7 +82,7 @@ export default function CreateNewClientModal({
 
   return (
     <Modal
-      open={open}
+      open={true}
       onClose={handleClose}
     >
       <Box sx={style}>

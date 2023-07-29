@@ -27,6 +27,7 @@ function Clients() {
       </Typography>
 
       <ClientActions
+        clients={clients}
         handleShowCreateClientModal={() => setShowCreateClientModal(true)}
         setFilteredClients={setFilteredClients}
       />
@@ -36,10 +37,11 @@ function Clients() {
       </Paper>
 
       {/* Modal */}
-      <CreateNewClientModal
-        open={showCreateClientModal}
-        handleClose={() => setShowCreateClientModal(false)}
-      />
+      {showCreateClientModal && (
+        <CreateNewClientModal
+          handleClose={() => setShowCreateClientModal(false)}
+        />
+      )}
     </Page>
   );
 }
