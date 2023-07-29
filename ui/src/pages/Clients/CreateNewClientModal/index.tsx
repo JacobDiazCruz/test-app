@@ -114,6 +114,7 @@ export default function CreateNewClientModal({
         )}
 
         <FooterActions
+          client={client}
           activeStep={activeStep}
           handleBack={handleBack}
           handleNext={handleNext}

@@ -25,7 +25,11 @@ export default function BasicTable({ clients }: { clients: IClient[] }) {
           {!clients ||
             (!clients.length && (
               <TableRow sx={{ padding: 3 }}>
-                <TableCell component="th" scope="row">
+                <TableCell 
+                  component="th" 
+                  scope="row" 
+                  sx={{ color: 'text.secondary' }}
+                >
                   No clients
                 </TableCell>
               </TableRow>
