@@ -4,9 +4,20 @@ export const modalBoxStyle = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  width: 400,
   bgcolor: 'white',
   borderRadius: '8px',
+  width: {
+    lg: 400,
+    md: 400,
+    sm: 300,
+    xs: 300
+  },
   boxShadow: 24,
-  p: 4,
+  px: 4,
+  py: {
+    lg: 4,
+    md: 4,
+    sm: 6,
+    xs: 6
+  }
 };

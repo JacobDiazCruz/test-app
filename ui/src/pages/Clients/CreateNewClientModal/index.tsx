@@ -96,7 +96,7 @@ export default function CreateNewClientModal({
         
         <Stepper nonLinear activeStep={activeStep} sx={{ mt: 2 }}>
           {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]} sx={{ pl: 0 }}>
+            <Step key={label} completed={completed[index]}>
               <StepButton onClick={() => setActiveStep(index)}>
                 {label}
               </StepButton>

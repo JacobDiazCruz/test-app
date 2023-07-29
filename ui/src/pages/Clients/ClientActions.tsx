@@ -41,7 +41,18 @@ export default function ClientActions({
   }, [searchClient, setFilteredClients, clients]);
 
   return (
-    <Box mt={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Box 
+      mt={3} 
+      sx={{ 
+        display: 'flex', 
+        gap: {
+          md: '250px',
+          sm: '20px',
+          xs: '20px'
+        }, 
+        justifyContent: 'space-between' 
+      }}
+    >
       <TextField 
         placeholder="Search clients..."
         InputProps={{
@@ -50,6 +61,9 @@ export default function ClientActions({
               <SearchIcon />
             </InputAdornment>
           )
+        }}
+        sx={{
+          flex: 1
         }}
         value={searchClient}
         onChange={(e) => setSearchClient(e.target.value)}
