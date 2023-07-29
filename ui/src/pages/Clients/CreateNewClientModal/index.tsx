@@ -1,11 +1,12 @@
 import { Close } from "@mui/icons-material";
-import { Button, IconButton, Modal, Step, StepButton, Stepper, TextField, Typography } from "@mui/material";
+import { Button, IconButton, Modal, Step, StepButton, Stepper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { StateContext } from "../../../store/DataProvider";
+import { Client, StateContext } from "../../../store/DataProvider";
 import PersonalDetails from "./PersonalDetails";
-interface Props {
+import ContactDetails from "./ContactDetails";
+interface CreateNewClientModalProps {
   open: boolean;
   handleClose: () => void;
 };
@@ -24,17 +25,10 @@ const style = {
 
 const steps = ['Personal details', 'Contact details'];
 
-export interface Client {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-};
-
 export default function CreateNewClientModal({
   open,
   handleClose
-}: Props) {
+}: CreateNewClientModalProps) {
   const { dispatch } = useContext(StateContext);
 
   const [activeStep, setActiveStep] = useState(0);
@@ -121,38 +115,11 @@ export default function CreateNewClientModal({
             handleSetClient={setClient}
           />
         ) : (
-          <Box py={3}>
-            <Box>
-              <Typography>
-                Email
-              </Typography>
-              <TextField 
-                sx={{ width: '100%' }}
-                value={client.email}
-                onChange={(e) => {
-                  setClient((prev) => ({
-                    ...prev,
-                    email: e.target.value
-                  }))
-                }}
-              />
-            </Box>
-            <Box mt={2}>
-              <Typography>
-                Contact
-              </Typography>
-              <TextField 
-                sx={{ width: '100%' }}
-                value={client.phoneNumber}
-                onChange={(e) => {
-                  setClient((prev) => ({
-                    ...prev,
-                    phoneNumber: e.target.value
-                  }))
-                }}
-              />
-            </Box>
-          </Box>
+          <ContactDetails
+            email={client.email}
+            phoneNumber={client.phoneNumber}
+            handleSetClient={setClient}
+          />
         )}
         <Box sx={{ display: 'flex' }}>
           {activeStep === 1 && (

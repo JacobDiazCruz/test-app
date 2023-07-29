@@ -12,6 +12,13 @@ export const StateContext = createContext<{
   null
 );
 
+export interface Client {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+};
+
 export const ACTIONS = {
   FETCH_ALL_CLIENTS: "FETCH_ALL_CLIENTS",
   ADD_CLIENT: "ADD_CLIENT"

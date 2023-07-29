@@ -4,44 +4,44 @@ import { Dispatch, SetStateAction } from "react";
 import { Client } from "../../../store/DataProvider";
 
 interface Props {
-  firstName: string;
-  lastName: string;
+  email: string;
+  phoneNumber: string;
   handleSetClient: Dispatch<SetStateAction<Client>>;
 };
 
-export default function PersonalDetails({
-  firstName,
-  lastName,
+export default function ContactDetails({
+  email,
+  phoneNumber,
   handleSetClient
 }: Props) {
   return (
     <Box py={3}>
       <Box>
         <Typography>
-          First name
+          Email
         </Typography>
         <TextField 
           sx={{ width: '100%' }}
-          value={firstName}
+          value={email}
           onChange={(e) => {
-            handleSetClient((prev: any) => ({
+            handleSetClient((prev) => ({
               ...prev,
-              firstName: e.target.value
+              email: e.target.value
             }))
           }}
         />
       </Box>
       <Box mt={2}>
         <Typography>
-          Last name
+          Contact
         </Typography>
         <TextField 
           sx={{ width: '100%' }}
-          value={lastName}
+          value={phoneNumber}
           onChange={(e) => {
-            handleSetClient((prev: any) => ({
+            handleSetClient((prev) => ({
               ...prev,
-              lastName: e.target.value
+              phoneNumber: e.target.value
             }))
           }}
         />
