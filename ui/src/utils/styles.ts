@@ -7,8 +7,8 @@ export const modalBoxStyle = {
   bgcolor: 'white',
   borderRadius: '8px',
   width: {
-    lg: 400,
-    md: 400,
+    lg: 450,
+    md: 450,
     sm: 300,
     xs: 300
   },

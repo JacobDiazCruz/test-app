@@ -1,11 +1,10 @@
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { steps } from ".";
-import { ClientForm } from "../../../hooks/useClientForm";
+import useClientForm, { Field } from "../../../hooks/useClientForm";
 
 interface Props {
-  clientForm: ClientForm[];
+  fields: Field[];
   activeStep: number;
   handleBack: () => void;
   handleContinue: () => void;
@@ -13,27 +12,17 @@ interface Props {
 };
 
 export default function FooterActions({
-  clientForm,
+  fields,
   activeStep,
   handleBack,
   handleContinue,
   handleCreateClient
 }: Props) {
-  const isPersonalDetailsValid = clientForm.some((client) => client.step === steps[0] && client.value.trim() !== '');
 
-  const clientFormValidation = (clientForm: ClientForm[]) => {
-    // Check if any of the fields in the current step is empty
-    const currentStepFields = clientForm.filter((client) => client.step === steps[activeStep]);
-    const isCurrentStepValid = currentStepFields.every((field) => field.value.trim() !== "");
+  const { clientForm } = useClientForm();
 
-    // Check if all the previous steps are completed and valid
-    const previousSteps = steps.slice(0, activeStep);
-    const isPreviousStepsValid = previousSteps.every((step) => {
-      const stepFields = clientForm.filter((client) => client.step === step);
-      return stepFields.every((field) => field.value.trim() !== "");
-    });
-
-    return isCurrentStepValid && isPreviousStepsValid;
+  const continueValidation = () => {
+    return fields.some(({ value, validator }) => !value || !validator?.(value));
   };
 
   return (
@@ -47,12 +36,12 @@ export default function FooterActions({
         </Button>
       )}
 
-      {activeStep < steps.length - 1 ? (
+      {activeStep < clientForm.length - 1 ? (
         <Button
           sx={{ ml: 'auto' }}
           variant="contained"
           onClick={handleContinue}
-          disabled={!isPersonalDetailsValid}
+          disabled={continueValidation()}
         >
           Continue
         </Button>
@@ -61,7 +50,7 @@ export default function FooterActions({
           sx={{ ml: 'auto' }}
           variant="contained"
           onClick={handleCreateClient}
-          disabled={!clientFormValidation(clientForm)}
+          disabled={continueValidation()}
         >
           Create client
         </Button>

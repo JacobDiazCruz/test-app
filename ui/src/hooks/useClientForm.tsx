@@ -1,62 +1,85 @@
-import { useContext, useState } from "react";
-import { StateContext } from "../store/DataProvider";
+import { useState } from "react";
 
-export interface ClientForm {
+export type ClientForm = FormStep[];
+export interface FormStep {
+  step: string;
+  fields: Field[]; 
+}
+export interface Field {
   label: string;
   field: string;
-  type: "text" | "email";
-  step: "Personal details" | "Contact details";
+  type: string;
   value: string;
+  validator?: (v: string) => boolean;
+  valid: boolean;
+  error?: boolean;
+  helperText?: string;
 }
 
 export default function useClientForm() {
-  const { dispatch } = useContext(StateContext);
+
+  // Simple email validation using regular expression
+  const validateEmail = (emailField: string) => {
+    if (emailField) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(emailField);
+    }
+    return true;
+  };
 
   // State to hold client information
-  const [clientForm, setClientForm] = useState<ClientForm[]>([
+  const [clientForm, setClientForm] = useState<ClientForm>([
     {
-      label: "First name",
-      field: "firstName",
-      type: "text",
-      step: "Personal details",
-      value: ""
+      step: "Personal Details",
+      fields: [
+        {
+          label: "First name",
+          field: "firstName",
+          type: "text",
+          validator: () => true,
+          valid: true,
+          value: ""
+        },
+        {
+          label: "Last name",
+          field: "lastName",
+          type: "text",
+          validator: () => true,
+          valid: true,
+          value: ""
+        }
+      ]
     },
     {
-      label: "Last name",
-      field: "lastName",
-      type: "text",
-      step: "Personal details",
-      value: ""
-    },
-    {
-      label: "Email",
-      field: "email",
-      type: "email",
       step: "Contact details",
-      value: ""
-    },
-    {
-      label: "Contact",
-      field: "phoneNumber",
-      type: "text",
-      step: "Contact details",
-      value: ""
+      fields: [
+        {
+          label: "Email",
+          field: "email",
+          type: "email",
+          value: "",
+          validator: validateEmail,
+          valid: true,
+          helperText: "Invalid email"
+        },
+        {
+          label: "Contact",
+          field: "phoneNumber",
+          validator: () => true,
+          valid: true,
+          type: "text",
+          value: ""
+        }
+      ]
     }
   ]);
 
-  // Handler for creating a new client and closing the modal
-  const handleCreateClient = (): void => {
-    const clientPayload: any = {};
-    clientForm.forEach((client: ClientForm) => {
-      clientPayload[client.field] = client.value;
-    });
-
-    dispatch({ type: "ADD_CLIENT", data: clientPayload });
-  };
+  const [isFormValid, setIsFormValid] = useState<boolean>(true);
 
   return {
     clientForm,
     setClientForm,
-    handleCreateClient
+    isFormValid,
+    setIsFormValid
   };
 }

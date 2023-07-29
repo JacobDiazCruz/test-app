@@ -43,6 +43,13 @@ export const theme: Theme = createTheme({
         },
       },
     },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          marginLeft: 0
+        },
+      },
+    },
     MuiTableCell: {
       styleOverrides: {
         root: {

@@ -7,30 +7,29 @@ import { Client } from "../../store/DataProvider";
 interface Props {
   clients: Client[];
   handleShowCreateClientModal: () => void;
-  setFilteredClients: any;
+  searchClient: string;
+  setSearchClient: Dispatch<SetStateAction<string>>;
+  setFilteredClients: Dispatch<any>;
 };
 
 export default function ClientActions({
   clients,
+  searchClient,
+  setSearchClient,
   handleShowCreateClientModal,
   setFilteredClients
 }: Props) {
-  const [searchClient, setSearchClient]: [string, Dispatch<SetStateAction<string>>] = useState<string>("");
 
   /**
-   * @purpose to handle search filter logic
-   * @action sets new value to filteredClients
+   * purpose: to handle search filter logic
+   * action: sets new value to filteredClients
    */
   useEffect(() => {
     const searchLowerCase = searchClient.toLowerCase();
 
-    const filterFunction = (client: Client) => {
-      const firstNameLowerCase = client.firstName.toLowerCase();
-      const lastNameLowerCase = client.lastName.toLowerCase();
-      return (
-        firstNameLowerCase.includes(searchLowerCase) ||
-        lastNameLowerCase.includes(searchLowerCase)
-      );
+    const filterFunction = ({ firstName, lastName }: Client) => {
+      const fullName = `${firstName} ${lastName}`;
+      return fullName.toLowerCase().includes(searchLowerCase);
     };
 
     const filteredClients = searchClient

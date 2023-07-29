@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { Dispatch, memo, SetStateAction, useContext, useEffect, useState } from "react";
 import { Paper, Typography } from "@mui/material";
 import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
@@ -13,7 +13,7 @@ function Clients() {
 
   const [filteredClients, setFilteredClients] = useState(clients);
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
-
+  const [searchClient, setSearchClient]: [string, Dispatch<SetStateAction<string>>] = useState<string>("");
   /**
    * To fetch all clients data from the api and store it to
    * the clients state.
@@ -35,6 +35,8 @@ function Clients() {
 
       <ClientActions
         clients={clients}
+        searchClient={searchClient}
+        setSearchClient={setSearchClient}
         handleShowCreateClientModal={() => setShowCreateClientModal(true)}
         setFilteredClients={setFilteredClients}
       />
@@ -46,6 +48,7 @@ function Clients() {
       {showCreateClientModal && (
         <CreateNewClientModal
           handleClose={() => setShowCreateClientModal(false)}
+          emptySearchClient={() => setSearchClient("")}
         />
       )}
     </Page>

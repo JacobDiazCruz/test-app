@@ -1,20 +1,22 @@
 import { Close } from "@mui/icons-material";
-import { IconButton, Modal, Step, StepButton, Stepper, TextField, Typography } from "@mui/material";
+import { IconButton, Modal, Step, StepButton, StepLabel, Stepper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useContext, useState } from "react";
 import { StateContext } from "../../../store/DataProvider";
 import FooterActions from "./FooterActions";
 import { modalBoxStyle } from "../../../utils/styles";
-import useClientForm, { ClientForm } from "../../../hooks/useClientForm";
+import useClientForm, { Field, FormStep } from "../../../hooks/useClientForm";
+import ClientFormStep from "./ClientFormStep";
+import CustomStepIcon from "./CustomStepIcon";
 
 interface CreateNewClientModalProps {
   handleClose: () => void;
+  emptySearchClient: () => void;
 }
 
-export const steps = ['Personal details', 'Contact details'];
-
 export default function CreateNewClientModal({
-  handleClose
+  handleClose,
+  emptySearchClient
 }: CreateNewClientModalProps) {
   const { dispatch } = useContext(StateContext);
 
@@ -22,14 +24,14 @@ export default function CreateNewClientModal({
     clientForm,
     setClientForm
   } = useClientForm();
-  
+
   const [activeStep, setActiveStep] = useState<number>(0);
   
   // State to track completed steps in the form
   const [completed, setCompleted] = useState<Record<number, boolean>>({});
 
   const totalSteps = (): number => {
-    return steps.length;
+    return clientForm.length;
   };
 
   const completedSteps = (): number => {
@@ -49,6 +51,10 @@ export default function CreateNewClientModal({
   // Handler for navigating back to the previous step in the form
   const handleBack = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+
+    const newCompleted = { ...completed };
+    newCompleted[activeStep] = false;
+    setCompleted(newCompleted);
   };
 
   // Handler for navigating to the next step in the form
@@ -59,7 +65,7 @@ export default function CreateNewClientModal({
 
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ? steps.findIndex((_, i) => !(i in newCompleted))
+        ? clientForm.findIndex((_, i) => !(i in newCompleted))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
@@ -67,27 +73,25 @@ export default function CreateNewClientModal({
   // Handler for creating a new client and closing the modal
   const handleCreateClient = (): void => {
     const clientPayload: any = {};
-    clientForm.forEach((client: ClientForm) => {
-      clientPayload[client.field] = client.value;
+    clientForm.forEach((step: FormStep) => {
+      step.fields.forEach(({field, value}: Field) => {
+        clientPayload[field] = value;
+      });
     });
-
+  
     dispatch({ type: "ADD_CLIENT", data: clientPayload });
+    emptySearchClient();
     handleClose();
   };
 
   // Handler to update the clientForm state when the text fields change
-  const handleChange = (index: number, value: string): void => {
-    setClientForm((prevClientForm) => {
-      const newClientForm = [...prevClientForm];
-      const currentStepFields = newClientForm.filter((client) => client.step === steps[activeStep]);
-      currentStepFields[index] = {
-        ...currentStepFields[index],
-        value: value
-      };
-      return newClientForm.map((client) =>
-        client.step === steps[activeStep] ? currentStepFields.shift()! : client
-      );
-    });
+  const handleChange = (index: number, fieldIndex: number, value: string): void => {
+    // Create a copy of the clientForm array
+    const newClientForm = [...clientForm];
+
+    // Update the specific field value
+    newClientForm[index].fields[fieldIndex].value = value;
+    setClientForm(newClientForm);
   };
 
   return (
@@ -106,39 +110,48 @@ export default function CreateNewClientModal({
           </IconButton>
         </Box>
         
-        <Stepper nonLinear activeStep={activeStep} sx={{ mt: 2 }}>
-          {steps.map((label, index) => (
-            <Step disabled key={label} completed={completed[index]}>
+        <Stepper nonLinear activeStep={activeStep} sx={{ mt: 3 }}>
+          {clientForm.map(({ step }, index) => (
+            <Step disabled key={index} completed={completed[index]}>
               <StepButton onClick={() => setActiveStep(index)}>
-                {label}
+                <StepLabel 
+                  StepIconComponent={CustomStepIcon}
+                >
+                  {step}
+                </StepLabel>
               </StepButton>
             </Step>
           ))}
         </Stepper>
 
         {/* Render the text fields based on the active step */}
-        {clientForm
-          .filter((client) => client.step === steps[activeStep])
-          .map((client: ClientForm, index: number) => (
-            <Box key={index} py={3}>
-              <Typography sx={{ color: "text.secondary" }}>
-                {client.label}
-              </Typography>
-              <TextField
-                sx={{ width: "100%" }}
-                value={client.value}
-                onChange={(e) => handleChange(index, e.target.value)}
-              />
-            </Box>
-        ))}
-
-        <FooterActions
-          clientForm={clientForm}
-          activeStep={activeStep}
-          handleBack={handleBack}
-          handleContinue={handleContinue}
-          handleCreateClient={handleCreateClient}
-        />
+        <Box pt={2}>
+          {clientForm.map((step: any, index: number) => (
+            <>
+              <Box
+                key={index}
+                pt={2} 
+                style={{ display: activeStep === index ? 'block' : 'none' }}
+              >
+                <ClientFormStep
+                  fields={step.fields}
+                  handleChange={(fieldIndex, value) => {
+                    handleChange(index, fieldIndex, value)
+                  }}
+                  footerActions={
+                    <FooterActions
+                      fields={step.fields}
+                      activeStep={activeStep}
+                      handleBack={handleBack}
+                      handleContinue={handleContinue}
+                      handleCreateClient={handleCreateClient}
+                    />
+                  }
+                />
+              </Box>
+            </>
+          ))}
+        </Box>
       </Box>
     </Modal>
   );
