@@ -19,7 +19,7 @@ export default function ClientActions({
 
   /**
    * @purpose to handle search filter logic
-   * @sets new value to setFilteredClients
+   * @action sets new value to filteredClients
    */
   useEffect(() => {
     const searchLowerCase = searchClient.toLowerCase();
@@ -38,7 +38,7 @@ export default function ClientActions({
       : clients;
 
     setFilteredClients(filteredClients);
-  }, [searchClient, clients]);
+  }, [searchClient, setFilteredClients, clients]);
 
   return (
     <Box mt={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>

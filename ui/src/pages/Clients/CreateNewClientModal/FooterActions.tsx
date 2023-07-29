@@ -7,7 +7,7 @@ interface Props {
   client: Client;
   activeStep: number;
   handleBack: () => void;
-  handleNext: () => void;
+  handleContinue: () => void;
   handleCreateClient: () => void;
 };
 
@@ -20,7 +20,7 @@ export default function FooterActions({
   client,
   activeStep,
   handleBack,
-  handleNext,
+  handleContinue,
   handleCreateClient
 }: Props) {
   const isPersonalDetailsValid = client.firstName !== '' && client.lastName !== '';
@@ -41,7 +41,7 @@ export default function FooterActions({
         <Button
           sx={{ ml: 'auto' }}
           variant="contained"
-          onClick={handleNext}
+          onClick={handleContinue}
           disabled={!isPersonalDetailsValid}
         >
           Continue

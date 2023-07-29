@@ -7,6 +7,7 @@ import PersonalDetails from "./PersonalDetails";
 import ContactDetails from "./ContactDetails";
 import FooterActions from "./FooterActions";
 import { modalBoxStyle } from "../../../utils/styles";
+
 interface CreateNewClientModalProps {
   handleClose: () => void;
 };
@@ -17,12 +18,9 @@ export default function CreateNewClientModal({
   handleClose
 }: CreateNewClientModalProps) {
   const { dispatch } = useContext(StateContext);
-
+  
+  // State to hold client information
   const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState<{
-    [k: number]: boolean;
-  }>({});
-
   const [client, setClient] = useState<Client>({
     firstName: '',
     lastName: '',
@@ -30,9 +28,10 @@ export default function CreateNewClientModal({
     phoneNumber: ''
   });
 
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
+  // State to track completed steps in the form
+  const [completed, setCompleted] = useState<{
+    [k: number]: boolean;
+  }>({});
 
   const totalSteps = () => {
     return steps.length;
@@ -42,23 +41,27 @@ export default function CreateNewClientModal({
     return Object.keys(completed).length;
   };
 
+  // Helper function to check if the current step is the last step in the form
   const isLastStep = () => {
     return activeStep === totalSteps() - 1;
   };
 
+  // Helper function to check if all steps in the form are completed
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
 
+  // Handler for navigating back to the previous step in the form
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleNext = () => {
+  // Handler for navigating to the next step in the form
+  const handleContinue = () => {
     const newCompleted = { ...completed };
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
-  
+
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
         ? steps.findIndex((step, i) => !(i in newCompleted))
@@ -66,6 +69,7 @@ export default function CreateNewClientModal({
     setActiveStep(newActiveStep);
   };
 
+  // Handler for creating a new client and closing the modal
   const handleCreateClient = () => {
     dispatch({ type: "ADD_CLIENT", data: client });
     handleClose();
@@ -77,6 +81,7 @@ export default function CreateNewClientModal({
       onClose={handleClose}
     >
       <Box sx={modalBoxStyle}>
+        {/* Header section */}
         <Box 
           className="header"
           style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
@@ -84,7 +89,7 @@ export default function CreateNewClientModal({
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Create new client
           </Typography>
-          <IconButton sx={{ p: 0 }}>
+          <IconButton sx={{ p: 0 }} onClick={handleClose}>
             <Close />
           </IconButton>
         </Box>
@@ -92,23 +97,24 @@ export default function CreateNewClientModal({
         <Stepper nonLinear activeStep={activeStep} sx={{ mt: 2 }}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]} sx={{ pl: 0 }}>
-              <StepButton onClick={handleStep(index)}>
+              <StepButton onClick={() => setActiveStep(index)}>
                 {label}
               </StepButton>
             </Step>
           ))}
         </Stepper>
 
-        {activeStep === 0 ? (
-          <PersonalDetails
-            firstName={client.firstName}
-            lastName={client.lastName}
-            handleSetClient={setClient}
-          />
-        ) : (
+        {/* Render either PersonalDetails or ContactDetails based on the active step */}
+        {!!activeStep ? (
           <ContactDetails
             email={client.email}
             phoneNumber={client.phoneNumber}
+            handleSetClient={setClient}
+          />
+        ) : (
+          <PersonalDetails
+            firstName={client.firstName}
+            lastName={client.lastName}
             handleSetClient={setClient}
           />
         )}
@@ -117,7 +123,7 @@ export default function CreateNewClientModal({
           client={client}
           activeStep={activeStep}
           handleBack={handleBack}
-          handleNext={handleNext}
+          handleContinue={handleContinue}
           handleCreateClient={handleCreateClient}
         />
       </Box>

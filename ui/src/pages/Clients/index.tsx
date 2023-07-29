@@ -14,6 +14,10 @@ function Clients() {
   const [filteredClients, setFilteredClients] = useState(clients);
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
 
+  /**
+   * @purpose To fetch all clients data from the api and store it to
+   * the clients state.
+   */
   useEffect(() => {
     getClients().then((clients) =>
       dispatch({ type: "FETCH_ALL_CLIENTS", data: clients })
@@ -39,7 +43,6 @@ function Clients() {
         <ClientTable clients={filteredClients} />
       </Paper>
 
-      {/* Modal */}
       {showCreateClientModal && (
         <CreateNewClientModal
           handleClose={() => setShowCreateClientModal(false)}
