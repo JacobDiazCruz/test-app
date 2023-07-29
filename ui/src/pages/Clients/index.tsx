@@ -11,6 +11,7 @@ function Clients() {
   const { state, dispatch } = useContext(StateContext);
   const { clients } = state;
 
+  const [filteredClients, setFilteredClients] = useState(clients);
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,10 +28,11 @@ function Clients() {
 
       <ClientActions
         handleShowCreateClientModal={() => setShowCreateClientModal(true)}
+        setFilteredClients={setFilteredClients}
       />
 
       <Paper sx={{ margin: "auto", marginTop: 3 }}>
-        <ClientTable clients={clients} />
+        <ClientTable clients={filteredClients} />
       </Paper>
 
       {/* Modal */}
