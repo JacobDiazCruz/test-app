@@ -1,12 +1,11 @@
 import { memo, useContext, useEffect, useState } from "react";
-import { Button, InputAdornment, Modal, Paper, TextField, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
-import { Box } from "@mui/system";
-import SearchIcon from '@mui/icons-material/Search';
 import CreateNewClientModal from "./CreateNewClientModal";
+import ClientActions from "./ClientActions";
 
 function Clients() {
   const { state, dispatch } = useContext(StateContext);
@@ -25,24 +24,11 @@ function Clients() {
       <Typography variant="h4" sx={{ textAlign: "start" }}>
         Clients
       </Typography>
-      <Box mt={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <TextField 
-          label="Standard" 
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            )
-          }}
-        />
-        <Button 
-          variant="contained"
-          onClick={() => setShowCreateClientModal(true)}
-        >
-          Create a new client
-        </Button>
-      </Box>
+
+      <ClientActions
+        handleShowCreateClientModal={() => setShowCreateClientModal(true)}
+      />
+
       <Paper sx={{ margin: "auto", marginTop: 3 }}>
         <ClientTable clients={clients} />
       </Paper>
