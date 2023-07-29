@@ -12,7 +12,13 @@ Extras
    - Reusability: In some cases, I've abstracted layers of configurations like overriding MUI theme components and palettes to separate their concerns into different files. Making them reusable and easily configured when the app scales.
 
 2. How close to the designs is your submission?
-   - 
+   - If you needed to change something in the future (size/color of buttons), how easy would it be?
+     - Since I've already abstracted the configuration of the mui theme, it would now
+     be easier for devs to navigate the file and change some styles. They won't need to
+     go to different components just to update a color of a button.
+    
+    - How does this look on different devices?
+     - On a mobile and tablet device, it looks responsive and easier to navigate since I've made some grids and components flexible using mui breakpoints. As for the different desktop views, there's not much change since the default style is already applied.
 
 3. How can your submission allow for scalability?
 
@@ -33,3 +39,4 @@ Extras
     - Code Reviews: Conduct peer code reviews to catch potential logic errors or coding mistakes. Code reviews promote best practices and improve code quality.
 
 5. How intuitive is the behavior of the app?
+    - 
