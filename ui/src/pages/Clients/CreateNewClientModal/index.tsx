@@ -3,10 +3,9 @@ import { IconButton, Modal, Step, StepButton, StepLabel, Stepper, Typography } f
 import { Box } from "@mui/system";
 import { useContext, useState } from "react";
 import { StateContext } from "../../../store/DataProvider";
-import FooterActions from "./FooterActions";
 import { modalBoxStyle } from "../../../utils/styles";
 import useClientForm, { Field, FormStep } from "../../../hooks/useClientForm";
-import ClientFormStep from "./ClientFormStep";
+import ClientFormField from "./ClientFormField";
 import CustomStepIcon from "./CustomStepIcon";
 
 interface CreateNewClientModalProps {
@@ -114,9 +113,7 @@ export default function CreateNewClientModal({
           {clientForm.map(({ step }, index) => (
             <Step disabled key={index} completed={completed[index]}>
               <StepButton onClick={() => setActiveStep(index)}>
-                <StepLabel 
-                  StepIconComponent={CustomStepIcon}
-                >
+                <StepLabel StepIconComponent={CustomStepIcon}>
                   {step}
                 </StepLabel>
               </StepButton>
@@ -124,32 +121,30 @@ export default function CreateNewClientModal({
           ))}
         </Stepper>
 
-        {/* Render the text fields based on the active step */}
+        {/* Render the form based on the active step */}
         <Box pt={2}>
-          {clientForm.map((step: any, index: number) => (
-            <>
-              <Box
-                key={index}
-                pt={2} 
-                style={{ display: activeStep === index ? 'block' : 'none' }}
-              >
-                <ClientFormStep
-                  fields={step.fields}
-                  handleChange={(fieldIndex, value) => {
-                    handleChange(index, fieldIndex, value)
-                  }}
-                  footerActions={
-                    <FooterActions
-                      fields={step.fields}
-                      activeStep={activeStep}
-                      handleBack={handleBack}
-                      handleContinue={handleContinue}
-                      handleCreateClient={handleCreateClient}
-                    />
-                  }
-                />
-              </Box>
-            </>
+          {clientForm.map((form: any, index: number) => (
+            <Box
+              key={index}
+              pt={2}
+              sx={{ display: activeStep === index ? 'block' : 'none' }}
+            >
+              <ClientFormField
+                fields={form.fields}
+                handleChange={(fieldIndex, value) => {
+                  handleChange(index, fieldIndex, value)
+                }}
+                footerActions={
+                  <ClientFormField.FooterActions
+                    fields={form.fields}
+                    activeStep={activeStep}
+                    handleBack={handleBack}
+                    handleContinue={handleContinue}
+                    handleCreateClient={handleCreateClient}
+                  />
+                }
+              />
+            </Box>
           ))}
         </Box>
       </Box>

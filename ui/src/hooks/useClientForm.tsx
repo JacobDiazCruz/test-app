@@ -11,7 +11,6 @@ export interface Field {
   type: string;
   value: string;
   validator?: (v: string) => boolean;
-  valid: boolean;
   error?: boolean;
   helperText?: string;
 }
@@ -37,7 +36,6 @@ export default function useClientForm() {
           field: "firstName",
           type: "text",
           validator: () => true,
-          valid: true,
           value: ""
         },
         {
@@ -45,7 +43,6 @@ export default function useClientForm() {
           field: "lastName",
           type: "text",
           validator: () => true,
-          valid: true,
           value: ""
         }
       ]
@@ -59,14 +56,12 @@ export default function useClientForm() {
           type: "email",
           value: "",
           validator: validateEmail,
-          valid: true,
           helperText: "Invalid email"
         },
         {
           label: "Contact",
           field: "phoneNumber",
           validator: () => true,
-          valid: true,
           type: "text",
           value: ""
         }

@@ -5,7 +5,7 @@ import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
 import CreateNewClientModal from "./CreateNewClientModal";
-import ClientActions from "./ClientActions";
+import ClientTableActions from "./ClientTableActions";
 
 function Clients() {
   const { state, dispatch } = useContext(StateContext);
@@ -13,7 +13,9 @@ function Clients() {
 
   const [filteredClients, setFilteredClients] = useState(clients);
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
-  const [searchClient, setSearchClient]: [string, Dispatch<SetStateAction<string>>] = useState<string>("");
+  const [searchClient, setSearchClient]: 
+    [string, Dispatch<SetStateAction<string>>] = useState<string>("");
+
   /**
    * To fetch all clients data from the api and store it to
    * the clients state.
@@ -33,7 +35,7 @@ function Clients() {
         Clients
       </Typography>
 
-      <ClientActions
+      <ClientTableActions
         clients={clients}
         searchClient={searchClient}
         setSearchClient={setSearchClient}

@@ -1,7 +1,7 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import SearchIcon from '@mui/icons-material/Search';
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Client } from "../../store/DataProvider";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   setFilteredClients: Dispatch<any>;
 };
 
-export default function ClientActions({
+export default function ClientTableActions({
   clients,
   searchClient,
   setSearchClient,

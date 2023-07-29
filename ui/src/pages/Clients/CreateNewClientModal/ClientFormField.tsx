@@ -1,18 +1,19 @@
 import { Box, TextField, Typography } from "@mui/material";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Field } from "../../../hooks/useClientForm";
+import FooterActions from "./FooterActions";
 
-interface ClientFormStepProps {
+interface Props {
   fields: Field[];
   footerActions: ReactNode;
   handleChange: (index: number, value: string) => void;
 }
 
-const ClientFormStep: React.FC<ClientFormStepProps> = ({
+const ClientFormField = ({
   fields,
   footerActions,
   handleChange,
-}) => {
+}: Props) => {
   return (
     <>
       {fields.map((field: Field, index) => {
@@ -39,4 +40,6 @@ const ClientFormStep: React.FC<ClientFormStepProps> = ({
   );
 };
 
-export default ClientFormStep;
+ClientFormField.FooterActions = FooterActions;
+
+export default ClientFormField;
