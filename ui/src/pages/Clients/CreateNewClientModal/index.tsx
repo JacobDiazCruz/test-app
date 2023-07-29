@@ -3,7 +3,8 @@ import { Button, IconButton, Modal, Step, StepButton, Stepper, TextField, Typogr
 import { Box } from "@mui/system";
 import { useContext, useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { StateContext } from "../../store/DataProvider";
+import { StateContext } from "../../../store/DataProvider";
+import PersonalDetails from "./PersonalDetails";
 interface Props {
   open: boolean;
   handleClose: () => void;
@@ -23,18 +24,25 @@ const style = {
 
 const steps = ['Personal details', 'Contact details'];
 
+export interface Client {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+};
+
 export default function CreateNewClientModal({
   open,
   handleClose
 }: Props) {
-  const { state, dispatch } = useContext(StateContext);
+  const { dispatch } = useContext(StateContext);
 
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{
     [k: number]: boolean;
   }>({});
 
-  const [client, setClient] = useState({
+  const [client, setClient] = useState<Client>({
     firstName: '',
     lastName: '',
     email: '',
@@ -107,38 +115,11 @@ export default function CreateNewClientModal({
           ))}
         </Stepper>
         {activeStep === 0 ? (
-          <Box py={3}>
-            <Box>
-              <Typography>
-                First name
-              </Typography>
-              <TextField 
-                sx={{ width: '100%' }}
-                value={client.firstName}
-                onChange={(e) => {
-                  setClient((prev) => ({
-                    ...prev,
-                    firstName: e.target.value
-                  }))
-                }}
-              />
-            </Box>
-            <Box mt={2}>
-              <Typography>
-                Last name
-              </Typography>
-              <TextField 
-                sx={{ width: '100%' }}
-                value={client.lastName}
-                onChange={(e) => {
-                  setClient((prev) => ({
-                    ...prev,
-                    lastName: e.target.value
-                  }))
-                }}
-              />
-            </Box>
-          </Box>
+          <PersonalDetails
+            firstName={client.firstName}
+            lastName={client.lastName}
+            handleSetClient={setClient}
+          />
         ) : (
           <Box py={3}>
             <Box>
