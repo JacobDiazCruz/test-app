@@ -15,22 +15,16 @@ export default function CustomStepIcon(props: StepIconProps) {
 
   if(completed) {
     return <CheckCircle style={{ color: 'green' }} />;
-  }
-  
-  if (active) {
+  } else if (active) {
     return (
-      <Box
-        sx={{ ...iconContainerStyle, bgcolor: 'primary.main' }}
-      >
+      <Box sx={{ ...iconContainerStyle, bgcolor: 'primary.main' }}>
         <Box sx={{ m: 'auto', color: 'white' }}>{props.icon}</Box>
       </Box>
     );
   }
 
   return (
-    <Box
-      sx={{ ...iconContainerStyle, bgcolor: 'text.secondary' }}
-    >
+    <Box sx={{ ...iconContainerStyle, bgcolor: 'text.secondary' }}>
       <Box sx={{ m: 'auto', color: 'white' }}>{props.icon}</Box>
     </Box>
   );

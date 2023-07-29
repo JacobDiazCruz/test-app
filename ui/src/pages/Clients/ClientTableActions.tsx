@@ -21,8 +21,8 @@ export default function ClientTableActions({
 }: Props) {
 
   /**
-   * purpose: to handle search filter logic
-   * action: sets new value to filteredClients
+   * To handle search filter logic and sets 
+   * new value to filteredClients
    */
   useEffect(() => {
     const searchLowerCase = searchClient.toLowerCase();

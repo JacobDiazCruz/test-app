@@ -26,7 +26,7 @@ Extras
      - If the customer has thousands of records, it would be more beneficial to put the search logic in the backend. Handling thousands of records on the frontend could lead to performance issues, as loading and processing such a large amount of data can slow down the application and consume excessive resources on the user's device. We can also put infinite loading or paging for all of the records added.
 
    - How is state managed as the codebase grows?
-     - As the codebase grows, the state will be managed depending on its requirements and complexities. "The existing structure of the "clients" state that uses reducer function to fetch and return the clients data is a good example of a pattern that avoids prop drilling that might worsen the sharing of states between related components". Moreover, the team can also decide whether to use third party libraries like RTK or React-query to manage the state better.
+     - Based on the client form state that I have created in the useClientForm hook, if the codebase grows and the app now requires extra fields and validations, you can simply add additional data inside the state since it is already flexible and able to handle different validations and views. Also, "The existing structure of the "clients" state that is used to fetch and return the clients data is a good example of a pattern that avoids prop drilling. Moreover, the team can also decide whether to use third party libraries such as RTK or React-query to manage the state better.
 
    - How can we support multiple countries?
     - If it's about supporting the user's locale, we have to implement internationalization in the application to support multiple languages. Use libraries like react-i18next or react-intl to manage translations and switch content based on the user's locale. However, if it's about handling different client data from different countries, we may have to add additional information on the client's form related to country-specific data.
@@ -39,4 +39,3 @@ Extras
     - Code Reviews: Conduct peer code reviews to catch potential logic errors or coding mistakes. Code reviews promote best practices and improve code quality.
 
 5. How intuitive is the behavior of the app?
-    - 
