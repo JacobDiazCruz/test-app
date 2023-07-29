@@ -39,7 +39,7 @@ export const theme: Theme = createTheme({
     MuiBackdrop: {
       styleOverrides: {
         root: {
-          backgroundColor: "rgba(0, 0, 0, 0)"
+          backgroundColor: "rgba(0, 0, 0, 0.2)"
         },
       },
     },

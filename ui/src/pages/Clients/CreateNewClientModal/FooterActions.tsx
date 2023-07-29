@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { ClientForm, steps } from ".";
+import { steps } from ".";
+import { ClientForm } from "../../../hooks/useClientForm";
 
 interface Props {
   clientForm: ClientForm[];

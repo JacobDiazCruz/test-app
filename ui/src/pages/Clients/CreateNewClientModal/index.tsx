@@ -5,59 +5,26 @@ import { useContext, useState } from "react";
 import { StateContext } from "../../../store/DataProvider";
 import FooterActions from "./FooterActions";
 import { modalBoxStyle } from "../../../utils/styles";
+import useClientForm, { ClientForm } from "../../../hooks/useClientForm";
 
 interface CreateNewClientModalProps {
   handleClose: () => void;
 }
 
 export const steps = ['Personal details', 'Contact details'];
-export interface ClientForm {
-  label: string;
-  field: string;
-  type: "text" | "email";
-  step: "Personal details" | "Contact details";
-  value: string;
-}
 
 export default function CreateNewClientModal({
   handleClose
 }: CreateNewClientModalProps) {
   const { dispatch } = useContext(StateContext);
+
+  const {
+    clientForm,
+    setClientForm
+  } = useClientForm();
   
-  // State to hold client information
-  const [clientForm, setClientForm] = useState<ClientForm[]>([
-    {
-      label: "First name",
-      field: "firstName",
-      type: "text",
-      step: "Personal details",
-      value: ""
-    },
-    {
-      label: "Last name",
-      field: "lastName",
-      type: "text",
-      step: "Personal details",
-      value: ""
-    },
-    {
-      label: "Email",
-      field: "email",
-      type: "email",
-      step: "Contact details",
-      value: ""
-    },
-    {
-      label: "Contact",
-      field: "phoneNumber",
-      type: "text",
-      step: "Contact details",
-      value: ""
-    }
-  ]);
-
   const [activeStep, setActiveStep] = useState<number>(0);
-
+  
   // State to track completed steps in the form
   const [completed, setCompleted] = useState<Record<number, boolean>>({});
 
@@ -103,7 +70,7 @@ export default function CreateNewClientModal({
     clientForm.forEach((client: ClientForm) => {
       clientPayload[client.field] = client.value;
     });
-    
+
     dispatch({ type: "ADD_CLIENT", data: clientPayload });
     handleClose();
   };
@@ -124,10 +91,7 @@ export default function CreateNewClientModal({
   };
 
   return (
-    <Modal
-      open={true}
-      onClose={handleClose}
-    >
+    <Modal open={true}>
       <Box sx={modalBoxStyle}>
         {/* Header section */}
         <Box 
