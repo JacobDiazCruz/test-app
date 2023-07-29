@@ -1,15 +1,18 @@
-import { memo, useContext, useEffect } from "react";
-import { Button, InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import { memo, useContext, useEffect, useState } from "react";
+import { Button, InputAdornment, Modal, Paper, TextField, Typography } from "@mui/material";
 import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
 import { Box } from "@mui/system";
 import SearchIcon from '@mui/icons-material/Search';
+import CreateNewClientModal from "./CreateNewClientModal";
 
 function Clients() {
   const { state, dispatch } = useContext(StateContext);
   const { clients } = state;
+
+  const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
 
   useEffect(() => {
     getClients().then((clients) =>
@@ -35,6 +38,7 @@ function Clients() {
         />
         <Button 
           variant="contained"
+          onClick={() => setShowCreateClientModal(true)}
         >
           Create a new client
         </Button>
@@ -42,6 +46,12 @@ function Clients() {
       <Paper sx={{ margin: "auto", marginTop: 3 }}>
         <ClientTable clients={clients} />
       </Paper>
+
+      {/* Modal */}
+      <CreateNewClientModal
+        open={showCreateClientModal}
+        handleClose={() => setShowCreateClientModal(false)}
+      />
     </Page>
   );
 }
