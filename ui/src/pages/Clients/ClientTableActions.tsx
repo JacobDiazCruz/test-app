@@ -1,15 +1,13 @@
 import { Button, InputAdornment, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { Client } from "../../store/DataProvider";
-
 interface Props {
-  clients: Client[];
+  clients: IClient[];
   handleShowCreateClientModal: () => void;
   searchClient: string;
   setSearchClient: Dispatch<SetStateAction<string>>;
-  setFilteredClients: Dispatch<any>;
+  setFilteredClients: Dispatch<SetStateAction<IClient[]>>;
 };
 
 export default function ClientTableActions({
@@ -25,16 +23,20 @@ export default function ClientTableActions({
    * new value to filteredClients
    */
   useEffect(() => {
+    if (!searchClient) {
+      // no search string has been inputted, set filter to all clients
+      setFilteredClients(clients);
+      return;
+    }
+
     const searchLowerCase = searchClient.toLowerCase();
 
-    const filterFunction = ({ firstName, lastName }: Client) => {
+    const filterFunction = ({ firstName, lastName }: IClient) => {
       const fullName = `${firstName} ${lastName}`;
       return fullName.toLowerCase().includes(searchLowerCase);
     };
 
-    const filteredClients = searchClient
-      ? clients.filter(filterFunction)
-      : clients;
+    const filteredClients = clients.filter(filterFunction);
 
     setFilteredClients(filteredClients);
   }, [searchClient, setFilteredClients, clients]);
@@ -43,13 +45,13 @@ export default function ClientTableActions({
     <Box 
       mt={3} 
       sx={{ 
-        display: 'flex', 
+        display: "flex", 
         gap: {
-          md: '250px',
-          sm: '20px',
-          xs: '20px'
+          md: "250px",
+          sm: "20px",
+          xs: "20px"
         }, 
-        justifyContent: 'space-between' 
+        justifyContent: "space-between" 
       }}
     >
       <TextField 

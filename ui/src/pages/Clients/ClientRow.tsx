@@ -21,7 +21,7 @@ export default function ClientListItem({ client }: IProps) {
       <TableCell 
         component="th" 
         scope="row"
-        sx={{ color: 'primary.main' }}
+        sx={{ color: "primary.main" }}
       >
         <Typography>
           {firstName} {lastName}

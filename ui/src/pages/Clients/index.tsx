@@ -1,14 +1,14 @@
-import { Dispatch, memo, SetStateAction, useContext, useEffect, useState } from "react";
+import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
 import { Paper, Typography } from "@mui/material";
-import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
 import CreateNewClientModal from "./CreateNewClientModal";
 import ClientTableActions from "./ClientTableActions";
+import { useStateContext } from "../../store/DataProvider";
 
 function Clients() {
-  const { state, dispatch } = useContext(StateContext);
+  const { state, dispatch } = useStateContext();
   const { clients } = state;
 
   const [filteredClients, setFilteredClients] = useState(clients);
@@ -30,7 +30,7 @@ function Clients() {
     <Page>
       <Typography 
         variant="h5" 
-        sx={{ textAlign: "start", fontWeight: 'bold' }}
+        sx={{ textAlign: "start", fontWeight: "bold" }}
       >
         Clients
       </Typography>
@@ -49,7 +49,13 @@ function Clients() {
 
       {showCreateClientModal && (
         <CreateNewClientModal
-          handleClose={() => setShowCreateClientModal(false)}
+          handleClose={() => {
+            setShowCreateClientModal(false);
+            dispatch({
+              type: "RESET_CREATE_CLIENT",
+              data: {}
+            })
+          }}
           emptySearchClient={() => setSearchClient("")}
         />
       )}

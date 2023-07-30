@@ -28,7 +28,7 @@ export default function BasicTable({ clients }: { clients: IClient[] }) {
                 <TableCell 
                   component="th" 
                   scope="row" 
-                  sx={{ color: 'text.secondary' }}
+                  sx={{ color: "text.secondary" }}
                 >
                   No clients
                 </TableCell>

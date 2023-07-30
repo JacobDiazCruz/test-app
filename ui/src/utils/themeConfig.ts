@@ -19,22 +19,22 @@ export const theme: Theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          boxShadow: '0 2px 8px #ebeef2',
-        }
-      }
+          boxShadow: "0 2px 8px #ebeef2",
+        },
+      },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none',
-          boxShadow: 'none',
-          borderRadius: '8px',
-          height: '45px',
-          '&:hover': {
+          textTransform: "none",
+          boxShadow: "none",
+          borderRadius: "8px",
+          height: "45px",
+          "&:hover": {
             opacity: 0.9
-          }
-        }
-      }
+          },
+        },
+      },
     },
     MuiBackdrop: {
       styleOverrides: {
@@ -54,8 +54,8 @@ export const theme: Theme = createTheme({
       styleOverrides: {
         root: {
           paddingLeft: 30
-        }
-      }
+        },
+      },
     },
     MuiTableHead: {
       styleOverrides: {
@@ -70,36 +70,36 @@ export const theme: Theme = createTheme({
       styleOverrides: {
         root: {
           "& .Mui-completed": {
-            color: '#007f25'
-          }
-        }
-      }
+            color: "#007f25"
+          },
+        },
+      },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          '&:hover': {
-            borderColor: 'none'
-          }
-        }
-      }
+          "&:hover": {
+            borderColor: "none"
+          },
+        },
+      },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          height: '45px',
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          '& fieldset': {
-            borderColor: '#e0e0e0',
-            borderRadius: '8px',
-            borderWidth: '1px',
+          height: "45px",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          "& fieldset": {
+            borderColor: "#e0e0e0",
+            borderRadius: "8px",
+            borderWidth: "1px",
           },
-          '&:hover': {
-            borderColor: 'none'
-          }
-        }
-      }
-    }
+          "&:hover": {
+            borderColor: "none"
+          },
+        },
+      },
+    },
   }
 });

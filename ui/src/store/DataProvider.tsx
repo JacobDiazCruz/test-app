@@ -1,7 +1,14 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
+import { clientForm } from "../config/formConfig";
+import deepCopy from "../utils/deepCopy";
 
 const initialState: IApplicationState = {
   clients: [],
+  createClient: {
+    clientForm: deepCopy(clientForm),
+    activeStep: 0,
+    completed: {}
+  }
 };
 
 export const StateContext = createContext<{
@@ -12,16 +19,13 @@ export const StateContext = createContext<{
   null
 );
 
-export interface Client {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-};
-
 export const ACTIONS = {
   FETCH_ALL_CLIENTS: "FETCH_ALL_CLIENTS",
-  ADD_CLIENT: "ADD_CLIENT"
+  ADD_CLIENT: "ADD_CLIENT",
+  UPDATE_CLIENT_FORM: "UPDATE_CLIENT_FORM",
+  UPDATE_ACTIVE_STEP: "UPDATE_ACTIVE_STEP",
+  UPDATE_COMPLETED_STEP: "UPDATE_COMPLETED_STEP",
+  RESET_CREATE_CLIENT: "RESET_CREATE_CLIENT"
 };
 
 type Action = {
@@ -35,6 +39,21 @@ const reducer = (state: IApplicationState, action: Action) => {
       return { ...state, clients: action.data };
     case ACTIONS.ADD_CLIENT:
       return { ...state, clients: [...state.clients, action.data] };
+    case ACTIONS.UPDATE_CLIENT_FORM:
+      return { ...state, "createClient": {...state.createClient, clientForm: action.data} };
+    case ACTIONS.UPDATE_ACTIVE_STEP:
+      return { ...state, "createClient": {...state.createClient, activeStep: action.data} };
+    case ACTIONS.UPDATE_COMPLETED_STEP:
+      return { ...state, "createClient": {...state.createClient, completed: action.data} };
+    case ACTIONS.RESET_CREATE_CLIENT:
+      return { 
+        ...state,
+        createClient: { 
+          clientForm: deepCopy(clientForm),
+          activeStep: 0,
+          completed: {}
+        }
+      };
     default:
       return state;
   }
@@ -51,10 +70,18 @@ export default function DataProvider({
     <StateContext.Provider
       value={{
         state,
-        dispatch,
+        dispatch
       }}
     >
       {children}
     </StateContext.Provider>
   );
-}
+};
+
+export const useStateContext = () => {
+  const context = useContext(StateContext)
+  if (context === undefined) {
+    throw new Error("useStateContext must be used within StateContext")
+  }
+  return context;
+};

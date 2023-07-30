@@ -1,25 +1,35 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { ReactNode } from "react";
-import { Field } from "../../../hooks/useClientForm";
+import { useStateContext } from "../../../store/DataProvider";
+import { Field } from "../../../types/clientForm";
 import FooterActions from "./FooterActions";
 
 interface Props {
   fields: Field[];
-  handleChange: (fieldIndex: number, value: string) => void;
+  formStepIndex: number;
   footerActions: ReactNode;
 }
 
-// Handler to update the clientForm state when the text fields change
-// const handleChange = (field: Field, value: string): void => {
-//   field.value = value
-//   setClientForm(newClientForm);
-// };
-
 const ClientFormField = ({
   fields,
-  handleChange,
-  footerActions,
+  formStepIndex,
+  footerActions
 }: Props) => {
+  const { state, dispatch } = useStateContext();
+  const { clientForm } = state.createClient;
+
+  // Handler to update the clientForm state when the text fields change
+  const handleChange = (fieldIndex: number, value: string): void => {
+    // Create a copy of the clientForm array
+    const newClientForm = [...clientForm];
+
+    // Update the specific field value
+    newClientForm[formStepIndex].fields[fieldIndex].value = value;
+    dispatch({
+      type: "UPDATE_CLIENT_FORM",
+      data: newClientForm
+    })
+  };
 
   return (
     <>

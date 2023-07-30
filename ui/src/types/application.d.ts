@@ -8,4 +8,11 @@ interface IClient {
 
 interface IApplicationState {
   clients: IClient[];
+  createClient: ICreateClientState;
+}
+
+interface ICreateClientState {
+  clientForm: ClientForm;
+  activeStep: number;
+  completed: Record<number, boolean>;
 }
