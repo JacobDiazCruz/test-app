@@ -5,15 +5,22 @@ import FooterActions from "./FooterActions";
 
 interface Props {
   fields: Field[];
+  handleChange: (fieldIndex: number, value: string) => void;
   footerActions: ReactNode;
-  handleChange: (index: number, value: string) => void;
 }
+
+// Handler to update the clientForm state when the text fields change
+// const handleChange = (field: Field, value: string): void => {
+//   field.value = value
+//   setClientForm(newClientForm);
+// };
 
 const ClientFormField = ({
   fields,
-  footerActions,
   handleChange,
+  footerActions,
 }: Props) => {
+
   return (
     <>
       {fields.map((field: Field, index) => {
