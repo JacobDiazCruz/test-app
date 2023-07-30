@@ -1,8 +1,7 @@
-# [Visit the wiki](https://github.com/Carepatron/Carepatron-Test-Full/wiki)
-
-Extras
+## Extras
 
 1. Quality and best practices
+
    When it comes to applying the best practices in this exam, I have come up with some approaches and patterns that are reasonable to use:
 
    - Compound Components pattern: I have applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component is not overly large and complex, I chose not to abstract everything too much because I do not want to end up over-engineering the feature.
