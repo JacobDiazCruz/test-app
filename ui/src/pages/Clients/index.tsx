@@ -1,23 +1,23 @@
 import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Typography } from "@mui/material";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
 import CreateNewClientModal from "./CreateNewClientModal";
 import ClientTableActions from "./ClientTableActions";
 import { useStateContext } from "../../store/DataProvider";
-import ConfirmExitDialog from "../../components/ConfirmExitDialog";
+import UnsavedChangesDialog from "../../components/UnsavedChangesDialog";
+import { Paper, Typography } from "@mui/material";
 
 function Clients() {
   const { state, dispatch } = useStateContext();
-  const { clients, createClient } = state;
+  const { clients } = state;
 
   const [filteredClients, setFilteredClients] = useState(clients);
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
   const [searchClient, setSearchClient]: 
     [string, Dispatch<SetStateAction<string>>] = useState<string>("");
   const [showConfirmExit, setShowConfirmExit] = useState<boolean>(false);
-    
+
   /**
    * To fetch all clients data from the api and store it to
    * the clients state.
@@ -65,7 +65,7 @@ function Clients() {
         />
       )}
       {showConfirmExit && (
-        <ConfirmExitDialog 
+        <UnsavedChangesDialog 
           setShowConfirmExit={setShowConfirmExit}
           handleCloseModal={handleCloseModal}
         />

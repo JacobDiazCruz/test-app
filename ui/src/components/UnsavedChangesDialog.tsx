@@ -6,7 +6,7 @@ interface Props {
   handleCloseModal: () => void;
 };
 
-export default function ConfirmExitDialog({
+export default function UnsavedChangesDialog({
   setShowConfirmExit,
   handleCloseModal
 }: Props) {

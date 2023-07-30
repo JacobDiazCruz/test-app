@@ -5,11 +5,13 @@ Extras
 1. Quality and best practices
    When it comes to applying the best practices in this exam, I have come up with some approaches and patterns that are reasonable to use:
 
-   - Compound Components pattern: I have applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component is not overly large and complex, I chose not to abstract everything too much because I don't want to end up over-engineering the feature.
+   - Compound Components pattern: I have applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component is not overly large and complex, I chose not to abstract everything too much because I do not want to end up over-engineering the feature.
+
+   - Configurability: Adding form steps or form fields would be easy in the current implementation of the `Create New Client` form. This can be done by modifying `formConfig` file without having to change anything in the components. This makes it easy to modify the form whenever the requirements change. Additionally, I have also created configurations for overriding MUI theme components and palettes to separate their concerns into different files, making them easily configurable when the app scales. 
+
+   - Reusability: I have implemented reusable components that can be shared accross the entire app. An example of this is the `UnsavedChangesDialog` component, since some form modals in the future might have the same need for it as well.
 
    - Comments: I have written down comments on functions and components to help explain their purpose and behavior, which can be helpful for other developers or for future reference. This is a good practice, especially in larger codebases or when the logic is more complex.
-
-   - Reusability: In some cases, I have abstracted layers of configurations like overriding MUI theme components and palettes to separate their concerns into different files. Making them reusable and easily configurable when the app scales.
 
 2. How close to the designs is your submission?
    - If you needed to change something in the future (size/color of buttons), how easy would it be?
@@ -18,18 +20,18 @@ Extras
      go to different components just to update a color of a button.
     
     - How does this look on different devices?
-     - On mobile and tablet devices, it looks responsive and easier to navigate since I have made some grids and components flexible using mui breakpoints. As for the different desktop views, there's not much change since the default style is already applied.
+     - On mobile and tablet devices, it looks responsive and easier to navigate since I have made some grids and components flexible using mui breakpoints. As for the different desktop views, there is not much change since the default style is already applied.
 
 3. How can your submission allow for scalability?
 
    - What if a customer has thousands of records?
-     - If the customer has thousands of records, it would be more beneficial to put the search logic in the backend. Handling thousands of records on the frontend could lead to performance issues, as loading and processing such a large amount of data can slow down the application and consume excessive resources on the user's device. We can also put infinite loading or paging for all of the records added.
+     - If the customer has thousands of records, it would be more beneficial to put the search logic in the backend. Handling thousands of records on the frontend could lead to browser performance issues, as loading and processing such a large amount of data can slow down the application and consume excessive resources on the user's device. We can also put infinite loading or paging so that the records will only load as needed.
 
    - How is state managed as the codebase grows?
-     - Based on the client form state that I have created in the useClientForm hook, if the codebase grows and the app now requires extra fields and validations, you can simply add additional data inside the state since it is already flexible and able to handle different validations and views. Also, "The existing structure of the "clients" state that is used to fetch and return the clients data is a good example of a pattern that avoids prop drilling. Moreover, the team can also decide whether to use third party libraries such as RTK or React-query to manage the state better.
+     - Since we already have an existing state provider for clients, we can just insert additional types and reducer logic if another mutation is needed. Moreover, this context pattern can be reused to other features as well if it is needed in future requirements. This pattern creates a centralized state management for the app, and it benefits the engineers by having a structured way of managing the state.
 
    - How can we support multiple countries?
-    - If it's about supporting the user's locale, we have to implement internationalization in the application to support multiple languages. Use libraries like react-i18next or react-intl to manage translations and switch content based on the user's locale. However, if it's about handling different client data from different countries, we may have to add additional information on the client's form related to country-specific data.
+    - If it is about supporting the user's locale, we have to implement internationalization in the application to support multiple languages. Use libraries like react-i18next or react-intl to manage translations and switch content based on the user's locale. However, if it is about handling different client data from different countries, we may have to add additional information on the client's form related to country-specific data.
 
 4. How can you ensure the app behaves as you intend it to?
     - There are some ways to ensure the app behaves as I intend it to:
