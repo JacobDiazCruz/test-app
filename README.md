@@ -39,3 +39,4 @@ Extras
     - Code Reviews: Conduct peer code reviews to catch potential logic errors or coding mistakes. Code reviews promote best practices and improve code quality.
 
 5. How intuitive is the behavior of the app?
+   - In terms of its user experience, it is intuitive enough for the users to easily navigate the app's functionalities. However, there is a part that I would like to point out and make a suggestion for. This is the modal's backdrop in the mock design. Currently, it does not specify an opacity for the modal's backdrop to be identified very easily. It would be better for the future to set a darker background to give importance to the modal as a form that needs to be prioritized on the page.
