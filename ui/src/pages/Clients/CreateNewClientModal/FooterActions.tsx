@@ -6,7 +6,7 @@ import { ClientForm, Field, FormStep } from "../../../types/clientForm";
 
 interface Props {
   fields: Field[];
-  handleClose: () => void;
+  handleCloseDirtyCheck: (v: boolean) => void;
   emptySearchClient: () => void;
 };
 
@@ -17,7 +17,7 @@ const isLastStep = (activeStep: number, clientForm: ClientForm): boolean => {
 
 export default function FooterActions({
   fields,
-  handleClose,
+  handleCloseDirtyCheck,
   emptySearchClient
 }: Props) {
   const { state, dispatch } = useStateContext();
@@ -72,8 +72,9 @@ export default function FooterActions({
   
     dispatch({ type: "ADD_CLIENT", data: clientPayload });
     dispatch({ type: "RESET_CREATE_CLIENT", data: {} });
+
     emptySearchClient();
-    handleClose();
+    handleCloseDirtyCheck(false);
   };
 
   return (

@@ -1,7 +1,7 @@
 import { Close } from "@mui/icons-material";
 import { IconButton, Modal, Step, StepButton, StepLabel, Stepper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect } from "react";
+import { Dispatch } from "react";
 import { useStateContext } from "../../../store/DataProvider";
 import { FormStep } from "../../../types/clientForm";
 import { modalBoxStyle } from "../../../utils/styles";
@@ -9,17 +9,27 @@ import ClientFormField from "./ClientFormField";
 import CustomStepIcon from "./CustomStepIcon";
 
 interface CreateNewClientModalProps {
-  handleClose: () => void;
   emptySearchClient: () => void;
+  handleCloseModal: () => void;
+  setShowConfirmExit: Dispatch<boolean>;
 }
 
 export default function CreateNewClientModal({
-  handleClose,
-  emptySearchClient
+  emptySearchClient,
+  handleCloseModal,
+  setShowConfirmExit
 }: CreateNewClientModalProps) {
   const { state } = useStateContext();
   const { createClient } = state;
-  const { activeStep, completed, clientForm } = createClient;
+  const { dirty, activeStep, completed, clientForm } = createClient;
+
+  const handleCloseDirtyCheck = (dirtyCheck: boolean) => {
+    if (dirtyCheck) {
+      setShowConfirmExit(true);
+    } else {
+      handleCloseModal();
+    }
+  };
 
   return (
     <Modal open={true}>
@@ -32,7 +42,7 @@ export default function CreateNewClientModal({
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Create new client
           </Typography>
-          <IconButton sx={{ p: 0 }} onClick={handleClose}>
+          <IconButton sx={{ p: 0 }} onClick={() => handleCloseDirtyCheck(dirty)}>
             <Close />
           </IconButton>
         </Box>
@@ -63,7 +73,7 @@ export default function CreateNewClientModal({
                 footerActions={
                   <ClientFormField.FooterActions
                     fields={form.fields}
-                    handleClose={handleClose}
+                    handleCloseDirtyCheck={handleCloseDirtyCheck}
                     emptySearchClient={emptySearchClient}
                   />
                 }

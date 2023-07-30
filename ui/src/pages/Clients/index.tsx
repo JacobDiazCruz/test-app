@@ -1,21 +1,23 @@
 import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
-import { Paper, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Typography } from "@mui/material";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
 import CreateNewClientModal from "./CreateNewClientModal";
 import ClientTableActions from "./ClientTableActions";
 import { useStateContext } from "../../store/DataProvider";
+import ConfirmExitDialog from "../../components/ConfirmExitDialog";
 
 function Clients() {
   const { state, dispatch } = useStateContext();
-  const { clients } = state;
+  const { clients, createClient } = state;
 
   const [filteredClients, setFilteredClients] = useState(clients);
   const [showCreateClientModal, setShowCreateClientModal] = useState<boolean>(false);
   const [searchClient, setSearchClient]: 
     [string, Dispatch<SetStateAction<string>>] = useState<string>("");
-
+  const [showConfirmExit, setShowConfirmExit] = useState<boolean>(false);
+    
   /**
    * To fetch all clients data from the api and store it to
    * the clients state.
@@ -25,6 +27,14 @@ function Clients() {
       dispatch({ type: "FETCH_ALL_CLIENTS", data: clients })
     );
   }, [dispatch]);
+
+  const handleCloseModal = () => {
+    setShowCreateClientModal(false);
+    dispatch({
+      type: "RESET_CREATE_CLIENT",
+      data: {}
+    });
+  };
 
   return (
     <Page>
@@ -49,14 +59,15 @@ function Clients() {
 
       {showCreateClientModal && (
         <CreateNewClientModal
-          handleClose={() => {
-            setShowCreateClientModal(false);
-            dispatch({
-              type: "RESET_CREATE_CLIENT",
-              data: {}
-            })
-          }}
+          setShowConfirmExit={setShowConfirmExit}
+          handleCloseModal={handleCloseModal}
           emptySearchClient={() => setSearchClient("")}
+        />
+      )}
+      {showConfirmExit && (
+        <ConfirmExitDialog 
+          setShowConfirmExit={setShowConfirmExit}
+          handleCloseModal={handleCloseModal}
         />
       )}
     </Page>

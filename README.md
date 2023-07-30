@@ -5,16 +5,16 @@ Extras
 1. Quality and best practices
    When it comes to applying the best practices in this exam, I have come up with some approaches and patterns that are reasonable to use:
 
-   - Compound Components pattern: I have applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component isn't really large and complex, I didn't abstract everything too much because I don't want to end up over-engineering the feature.
+   - Compound Components pattern: I have applied this pattern in various areas of the components that need composition. Especially on the `CreateNewClientModal` to separate different concerns like its `Form`, `Stepper`, and `Actions`. Given that the component is not overly large and complex, I chose not to abstract everything too much because I don't want to end up over-engineering the feature.
 
    - Comments: I have written down comments on functions and components to help explain their purpose and behavior, which can be helpful for other developers or for future reference. This is a good practice, especially in larger codebases or when the logic is more complex.
 
-   - Reusability: In some cases, I have abstracted layers of configurations like overriding MUI theme components and palettes to separate their concerns into different files. Making them reusable and easily configured when the app scales.
+   - Reusability: In some cases, I have abstracted layers of configurations like overriding MUI theme components and palettes to separate their concerns into different files. Making them reusable and easily configurable when the app scales.
 
 2. How close to the designs is your submission?
    - If you needed to change something in the future (size/color of buttons), how easy would it be?
-     - Since I have already abstracted the configuration of the mui theme, it would now
-     be easier for devs to navigate the file and change some styles. They won't need to
+     - Since I created a separate configuration of the mui theme, it would now
+     be easier for devs to navigate the file and change some styles. They will no longer need to
      go to different components just to update a color of a button.
     
     - How does this look on different devices?
@@ -36,7 +36,11 @@ Extras
 
       - Unit Testing: Write comprehensive unit tests for individual functions, components, and modules. Unit tests verify that isolated units of code work correctly and help catch bugs early in the development process.
     
-    - Code Reviews: Conduct peer code reviews to catch potential logic errors or coding mistakes. Code reviews promote best practices and improve code quality.
+      - Code Reviews: Conduct peer code reviews to catch potential logic errors or coding mistakes. Code reviews promote best practices and improve code quality.
 
 5. How intuitive is the behavior of the app?
-   - In terms of its user experience, it is intuitive enough for the users to easily navigate the app's functionalities. However, there is a part that I would like to point out and make a suggestion for. This is the modal's backdrop in the mock design. Currently, it does not specify an opacity for the modal's backdrop to be identified very easily. It would be better for the future to set a darker background to give importance to the modal as a form that needs to be prioritized on the page.
+   - In terms of its user experience, it is intuitive enough for the users to easily navigate the app's functionalities. However, here are parts that I would like to point out and make suggestions for:
+
+      - Modal Backdrop: Currently, the design does not specify an opacity for the modal's backdrop to be identified easily. It would be better for the future to set a darker background to give importance to the modal as a form that needs to be prioritized on the page.
+
+      - Unsave changes dialog: I have implemented a dialog where the user will be prompted by a question if they want to discard their changes and exit the modal. This appears when they supplied values in the form but they click the close button without saving it. This will prevent user errors and will definetely make the UX better.

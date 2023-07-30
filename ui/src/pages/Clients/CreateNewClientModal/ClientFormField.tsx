@@ -28,7 +28,7 @@ const ClientFormField = ({
     dispatch({
       type: "UPDATE_CLIENT_FORM",
       data: newClientForm
-    })
+    });
   };
 
   return (

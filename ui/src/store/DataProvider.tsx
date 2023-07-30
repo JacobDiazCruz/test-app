@@ -6,8 +6,9 @@ const initialState: IApplicationState = {
   clients: [],
   createClient: {
     clientForm: deepCopy(clientForm),
+    dirty: false,
     activeStep: 0,
-    completed: {}
+    completed: {},
   }
 };
 
@@ -25,7 +26,7 @@ export const ACTIONS = {
   UPDATE_CLIENT_FORM: "UPDATE_CLIENT_FORM",
   UPDATE_ACTIVE_STEP: "UPDATE_ACTIVE_STEP",
   UPDATE_COMPLETED_STEP: "UPDATE_COMPLETED_STEP",
-  RESET_CREATE_CLIENT: "RESET_CREATE_CLIENT"
+  RESET_CREATE_CLIENT: "RESET_CREATE_CLIENT",
 };
 
 type Action = {
@@ -40,7 +41,14 @@ const reducer = (state: IApplicationState, action: Action) => {
     case ACTIONS.ADD_CLIENT:
       return { ...state, clients: [...state.clients, action.data] };
     case ACTIONS.UPDATE_CLIENT_FORM:
-      return { ...state, "createClient": {...state.createClient, clientForm: action.data} };
+      return { 
+        ...state, 
+        "createClient": {
+          ...state.createClient,
+          clientForm: action.data,
+          dirty: true
+        } 
+      };
     case ACTIONS.UPDATE_ACTIVE_STEP:
       return { ...state, "createClient": {...state.createClient, activeStep: action.data} };
     case ACTIONS.UPDATE_COMPLETED_STEP:
@@ -51,8 +59,9 @@ const reducer = (state: IApplicationState, action: Action) => {
         createClient: { 
           clientForm: deepCopy(clientForm),
           activeStep: 0,
-          completed: {}
-        }
+          dirty: false,
+          completed: {},
+        },
       };
     default:
       return state;

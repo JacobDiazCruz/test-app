@@ -13,6 +13,7 @@ interface IApplicationState {
 
 interface ICreateClientState {
   clientForm: ClientForm;
+  dirty: boolean;
   activeStep: number;
   completed: Record<number, boolean>;
 }
