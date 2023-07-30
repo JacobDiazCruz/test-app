@@ -19,7 +19,7 @@ export default function UnsavedChangesDialog({
       </DialogContent>
       <DialogActions sx={{ p: 3 }}>
         <Button onClick={() => setShowConfirmExit(false)}>
-          Disagree
+          No
         </Button>
         <Button
           variant="contained"
@@ -28,7 +28,7 @@ export default function UnsavedChangesDialog({
             handleCloseModal();
           }}
         >
-          Agree
+          Yes
         </Button>
       </DialogActions>
     </Dialog>
